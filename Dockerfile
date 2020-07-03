@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Dockerfile                                         :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/06 14:31:22 by rchallie          #+#    #+#              #
-#    Updated: 2020/07/02 13:45:59 by fmarckma         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 FROM debian:buster
 
 RUN apt-get update && apt-get install -y procps && apt-get install nano && apt-get install -y wget
@@ -17,10 +5,11 @@ RUN apt-get -y install php7.3-fpm php7.3-common php7.3-mysql php7.3-gmp php7.3-c
 RUN apt-get -y install wget
 RUN apt-get -y install nginx
 RUN apt-get -y install mariadb-server
+RUN mkdir ./config_file
 
 COPY ./srcs/init_container.sh ./
-COPY ./srcs/nginx-conf ./tmp/nginx-conf
-COPY ./srcs/phpmyadmin.inc.php ./tmp/phpmyadmin.inc.php
-COPY ./srcs/wp-config.php ./tmp/wp-config.php
+COPY ./srcs/nginx-conf ./config_file/nginx-conf
+COPY ./srcs/phpmyadmin.inc.php ./config_file/phpmyadmin.inc.php
+COPY ./srcs/wp-config.php ./config_file/wp-config.php
 
-CMD bash init_container.sh && tail /dev/null
+CMD bash init_container.sh
